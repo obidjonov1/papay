@@ -1,0 +1,14 @@
+{
+  "name": "papay",
+  "version": "1.0.0",
+  "description": "bu bizning dostavka loyihamiz",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "train": "nodemon train",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sarvar (Steve)",
+  "license": "ISC"
+}
