@@ -16,6 +16,7 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 
 // 4 -> routing code
-app.use("/", router);
+// app.use("/resto", router__bssr); // ananaviy 
+app.use("/", router);             // React
 
 module.exports = app;
