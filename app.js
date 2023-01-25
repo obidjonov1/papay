@@ -3,9 +3,6 @@ const express = require("express");
 const app = express();
 const router = require("./router");
 
-// MongoDB call
-const db = require("./server").db();
-const mongodb = require("mongodb");
 
 // 1-> kirish
 app.use(express.static("public"));

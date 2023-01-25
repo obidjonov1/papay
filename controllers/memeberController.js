@@ -17,5 +17,5 @@ memberController.login = (req, res) => {
 
 memberController.logout = (req, res) => {
   console.log("GET cont.logout");
-  res.send("logout sahifasidasiz");
+  res.send("logout sahifasidasiz"); 
 };
