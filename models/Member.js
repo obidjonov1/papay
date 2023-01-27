@@ -11,7 +11,7 @@ class Member {
   // req.body kelyapti
   async signupData(input) {
     try {
-      // passwordni shifrlash uchun ->
+      // passwordni shifrlash uchun -->
       const salt = await bcrypt.genSalt();
       input.mb_password = await bcrypt.hash(input.mb_password, salt);
       const new_member = new this.memberModel(input);
