@@ -1,8 +1,8 @@
-function FootBallPoints(wins, draws, losses) {
-  return wins * 3 + draws * 1 + losses * 0;
+/* 📌  L-Task: String bolib kelgan argumentni ichidagi sonni hisoblab 
+javobini butun qilib return qilsin. Masalan: Calculate("1+1") 
+return qilsin 2, calculate("4*5") return qilsin 20. */
+function calculate(stringNum) {
+  return eval(stringNum);
 }
-
-// 3-marotaba wins = 9
-// 4-marotaba draws = 4
-// 2-marotaba losses = 0
-console.log(FootBallPoints(3, 4, 2)); // 13
+console.log(calculate("1 + 1")); // return 2
+console.log(calculate("4 * 5")); // return 20
