@@ -32,9 +32,10 @@ restaurantController.signupProcess = async (req, res) => {
       // signupData(data) -> ga req.bodyni yuboryabmiz
       new_member = await member.signupData(data);
 
+    // resquest sessionni ichiga SET qilyabmiz
     req.session.member = new_member;
 
-    res.redirect("/resto/products/menu");
+    res.redirect("/resto/products/menu"); // boshqa pagega yuborish
   } catch (err) {
     console.log(`ERROR: cont/signup ${err.message}`);
     res.json({ state: "fail", message: err.message });
@@ -72,6 +73,17 @@ restaurantController.loginProcess = async (req, res) => {
 restaurantController.logout = (req, res) => {
   console.log("GET cont.logout");
   res.send("logout sahifasidasiz");
+};
+
+restaurantController.validateAuthRestaurant = (req, res, next) => {
+  if (req.session?.member?.mb_type === "RESTAURANT") {
+    req.member = req.session.member;
+    next();
+  } else
+    res.json({
+      state: "fail",
+      message: "Only authenticated members with restaurant type",
+    });
 };
 
 restaurantController.checkSessions = (req, res) => {
