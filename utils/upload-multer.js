@@ -14,12 +14,14 @@ function getTargetImageStorage(address) {
       console.log(file);
       // yuklanayotgan rasimni asl nomi va o'sha file farmatini olish uchun ->
       const extension = path.parse(file.originalname).ext;
+      // nameni random qilib beradi
       const random_name = uuid.v4() + extension;
       cb(null, random_name);
     },
   });
 }
 
+// natija: multer object hosil qilish uchun 
 const makeUploader = (address) => {
   const storage = getTargetImageStorage(address);
   return multer({ storage: storage });

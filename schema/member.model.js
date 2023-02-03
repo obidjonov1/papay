@@ -88,6 +88,7 @@ const memberSchema = new mongoose.Schema(
       default: 0,
     },
   },
+  // mognodb da auto tarzda 'qo'shilgan', 'o'zgartirilgan' item vaqtini yozib beradi
   { timestamps: true } // createdAt, updatedAt
 );
 
