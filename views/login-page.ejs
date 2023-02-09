@@ -1,5 +1,44 @@
 <%- include('includes/header') %>
+<link rel="stylesheet" href="/css/login.css" />
 <body>
-  <h1>Login page</h1>
+  <form action="/resto/login" method="POST" class="login_container">
+    <div class="login_frame">
+      <div class="login_top">
+        <span>Saytga kirish</span>
+        <div>
+          Bosh sahifaga qaytish <a href="/resto" style="color: #6440fb">Home</a>
+        </div>
+        <p>
+          Ro'yhatdan o;tganmisiz?
+          <a href="/resto/signup" style="color: #6440fb">Ro'yhatdan o'tish</a>
+        </p>
+      </div>
+
+      <div class="login_input_frame">
+        <div class="login_input_container">
+          <label>Foydalanuvchining ismi:</label>
+          <input
+            type="text"
+            name="mb_nick"
+            placeholder="Foydalanuvchining ismi"
+            value=""
+            required
+          />
+        </div>
+        <div class="login_input_container">
+          <label>Password kiriting:</label>
+          <input
+            type="password"
+            name="mb_nick"
+            placeholder="Password"
+            value=""
+            required
+          />
+        </div>
+      </div>
+
+      <button class="login_btn btn" name="login" type="submit">Kirish</button>
+    </div>
+  </form>
 </body>
 <%- include('includes/footer') %>
