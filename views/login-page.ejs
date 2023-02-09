@@ -1,7 +1,7 @@
 <%- include('includes/header') %>
 <link rel="stylesheet" href="/css/login.css" />
 <body>
-  <form action="/resto/login" method="POST" class="login_container">
+  <form action="/resto/login" method="post" class="login_container">
     <div class="login_frame">
       <div class="login_top">
         <span>Saytga kirish</span>
@@ -9,7 +9,7 @@
           Bosh sahifaga qaytish <a href="/resto" style="color: #6440fb">Home</a>
         </div>
         <p>
-          Ro'yhatdan o;tganmisiz?
+          Ro'yhatdan o'tganmisiz?
           <a href="/resto/signup" style="color: #6440fb">Ro'yhatdan o'tish</a>
         </p>
       </div>
@@ -29,7 +29,7 @@
           <label>Password kiriting:</label>
           <input
             type="password"
-            name="mb_nick"
+            name="mb_password"
             placeholder="Password"
             value=""
             required

@@ -38,8 +38,8 @@ class Member {
         .exec();
       // agar member nick true bo'lsa ok, bo'lmasa Definer(ERROR) ->
       assert.ok(member, Definer.auth_err2);
-      
-      // bu yerda login bo'layotganda bcrypt inputdagi pswni databaseagi psw bilan o'zi solishtirib oladi. 
+
+      // bu yerda login bo'layotganda bcrypt inputdagi pswni databaseagi psw bilan o'zi solishtirib oladi.
       const isMatch = await bcrypt.compare(
         input.mb_password,
         member.mb_password
@@ -47,6 +47,7 @@ class Member {
       // agar member password true bo'lsa ok, bo'lmasa Definer(ERROR) ->
       assert.ok(isMatch, Definer.auth_err3);
 
+      // bir hil password kirtgan bo'lsa, mb_nick m'lumotlarini olib orqaga qaytaradi ->
       return await this.memberModel.findOne({ mb_nick: input.mb_nick }).exec();
     } catch (err) {
       throw err;
