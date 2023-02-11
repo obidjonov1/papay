@@ -1,3 +1,5 @@
+const assert = require("assert");
+const Definer = require("../lib/mistake");
 const Member = require("../models/Member");
 const Product = require("../models/Product");
 
@@ -18,6 +20,7 @@ restaurantController.getMyRestaurantProducts = async (req, res) => {
     console.log("GET: cont/getMyRestaurantProducts");
     const product = new Product();
     const data = await product.getAllProductsDataResto(res.locals.member);
+    // login bo'lgan restaurantni hamma productlarini olib "restaurant-menu.ejs" ga yuboradi
     res.render("restaurant-menu", { restaurant_data: data });
   } catch (err) {
     console.log(`ERROR: cont/getMyRestaurantProducts ${err.message}`);
@@ -38,14 +41,19 @@ restaurantController.getSignupMyRestaurant = async (req, res) => {
 restaurantController.signupProcess = async (req, res) => {
   try {
     console.log("POST: cont/signupProcess");
-    const data = req.body,
-      member = new Member(),
+    assert(req.file, Definer.general_err3);
+
+    let new_member = req.body;
+    new_member.mb_type = "RESTAURANT";
+    new_member.mb_image = req.file.path;
+
+    const member = new Member(),
       // signupData(data) -> ga req.bodyni yuboryabmiz
-      new_member = await member.signupData(data);
+      result = await member.signupData(new_member);
+    assert(req.file, Definer.general_err1);
 
     // resquest sessionni ichiga SET qilyabmiz
-    req.session.member = new_member;
-
+    req.session.member = result;
     res.redirect("/resto/products/menu"); // boshqa pagega yuborish
   } catch (err) {
     console.log(`ERROR: cont/signupProcess ${err.message}`);
@@ -69,8 +77,9 @@ restaurantController.loginProcess = async (req, res) => {
     const data = req.body,
       member = new Member(),
       // signupData(data) -> ga req.bodyni yuboryabmiz
-      result = await member.loginData(data);
+      result = await member.loginData(data); // memberimizni barcha ma'lumotlari "result" da mavjud
 
+    // sessionni ichida memberni hosil qilib ichiga yuklayabmiz "result"ni
     req.session.member = result;
     req.session.save(function () {
       // redirect = bu router_bssr.js(23) dan davom etadi

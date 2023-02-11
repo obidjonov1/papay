@@ -47,7 +47,7 @@ class Member {
       // agar member password true bo'lsa ok, bo'lmasa Definer(ERROR) ->
       assert.ok(isMatch, Definer.auth_err3);
 
-      // bir hil password kirtgan bo'lsa, mb_nick m'lumotlarini olib orqaga qaytaradi ->
+      // bir hil password kirtgan bo'lsa, mb_nick m'lumotlarini olib orqaga qaytaradi -> [rstaurantController 74 qator]
       return await this.memberModel.findOne({ mb_nick: input.mb_nick }).exec();
     } catch (err) {
       throw err;
