@@ -120,6 +120,7 @@
           // olingan file(rasim)ni typeni olyabmiz
           const fileType = uploading_file["type"];
           const validImageType = ["image/jpg", "image/jpeg", "image/png"];
+          // qo'shilayotgan file(rasim) farmati biz ko'rsatgan fayldan boshqacha bo'lsa ->
           if (!validImageType.includes(fileType)) {
             alert(
               "Iltimos ruhsat etilgan formatdagi rasimlarni yuklang: jpg, jpeg, png"
@@ -128,13 +129,14 @@
             if (uploading_file) {
               console.log(URL.createObjectURL(uploading_file));
               $(".upload_img_frame")
+                // qo'shilgan rasimni asl nomini '.upload_img_frame' ga yozib beryapti
                 .attr("src", URL.createObjectURL(uploading_file))
                 .addClass("success");
             }
             filename = uploading_file.name;
           }
         }
-
+        // qo'shilgan rasimni asl nomini '.upload_img_frame' ga yozib beryapti ->
         $(this).siblings(".upload-name").val(filename);
       });
     });
@@ -144,6 +146,7 @@
       const mb_phone = $(".mb_phone").val();
       const mb_password = $(".mb_password").val();
       const mb_confirm_password = $(".mb_confirm_password").val();
+      // inputga file qanday qilib tekshiramiz ->
       const restaurant_img = $(".restaurant_img").get(0).files[0] ?? null;
 
       if (

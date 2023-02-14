@@ -1,3 +1,4 @@
+console.log("restaurant-menu.ejsdan commentni ochir");
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 const Member = require("../models/Member");
@@ -45,6 +46,7 @@ restaurantController.signupProcess = async (req, res) => {
 
     let new_member = req.body;
     new_member.mb_type = "RESTAURANT";
+    // yuklangan image ->
     new_member.mb_image = req.file.path;
 
     const member = new Member(),

@@ -18,6 +18,7 @@ class Member {
 
       let result;
       try {
+        // databasega save qiladi
         result = await new_member.save();
       } catch (mongo_err) {
         console.log(mongo_err);
@@ -25,6 +26,7 @@ class Member {
       }
 
       result.mb_password = "";
+      // resultni tashqariga javob -> return qilganimiz uchun
       return result;
     } catch (err) {
       throw err;
