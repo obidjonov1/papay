@@ -51,8 +51,8 @@
                   id="<%= value._id %>"
                   class="spec_select new_product_status"
                 >
-                  <option value="PAUSED" <%= value.product_status ===  "PAUSED" ? 'selected' : '' %> >PAUSED</option>
-                  <option value="PROCESS" <%= value.product_status ===  "PROCESS" ? 'selected' : '' %> >PROCESS</option>
+                  <!-- <option value="PAUSED" <%= value.product_status ===  "PAUSED" ? 'selected' : '' %> >PAUSED</option> -->
+                  <!-- <option value="PROCESS" <%= value.product_status ===  "PROCESS" ? 'selected' : '' %> >PROCESS</option> -->
                 </select>
               </td>
             </tbody>
@@ -233,19 +233,19 @@
 
   <script>
     // opstiondan "dink" tanlanganda drinkga tegishli volumelarni chiqarish ->
-    $(".product_collection").on("change", () => {
-      const selected_value = $(".product_collection").val();
-      if (selected_value === "drink") {
-        $("#product_volume").show();
-        $("#product_size").hide();
-      } else {
-        $("#product_volume").hide();
-        $("#product_size").show();
-      }
-    });
-
-    // "taom qo'shish" tugmasi bosilganda ".dish_container" ochilish functionni ->
     $(function () {
+      $(".product_collection").on("change", () => {
+        const selected_value = $(".product_collection").val();
+        if (selected_value === "drink") {
+          $("#product_volume").show();
+          $("#product_size").hide();
+        } else {
+          $("#product_volume").hide();
+          $("#product_size").show();
+        }
+      });
+
+      // "taom qo'shish" tugmasi bosilganda ".dish_container" ochilish functionni ->
       $(".hiding_btn").on("click", () => {
         $(".dish_container").slideToggle(500);
         $(".hiding_btn").css("display", "none");
@@ -254,6 +254,7 @@
       // product status changer
       $(".new_product_status").on("change", async function (e) {
         const id = e.target.id;
+        // "PROCES" yoki "PAUSED" larni bosganda o'sha bosilganini qiymatini olib beradi ->
         const product_status = $(`#${id}.new_product_status`).val();
 
         try {
@@ -271,7 +272,7 @@
             alert(result.message);
           }
         } catch (err) {
-          console.log("updateChosenProduct err:", err);
+          console.log("update Chosen Product err:", err);
         }
       });
     });

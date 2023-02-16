@@ -24,6 +24,8 @@ productController.addNewProduct = async (req, res) => {
 
     // req.filesga yuklangan fileni array qilib databasega yozish ->
     data.product_images = req.files.map((ele) => {
+      // path lardan iborat array hosil qilyabmiz 
+      // hech qachon databasega img,file yuklamaymiz faqat array yuklaymiz
       return ele.path;
     });
 
