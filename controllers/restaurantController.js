@@ -2,6 +2,7 @@ const assert = require("assert");
 const Definer = require("../lib/mistake");
 const Member = require("../models/Member");
 const Product = require("../models/Product");
+const Restaurant = require("../models/Restaurant");
 
 let restaurantController = module.exports;
 
@@ -139,12 +140,15 @@ restaurantController.validateAdmin = (req, res, next) => {
   }
 };
 
-restaurantController.getAllRestaurants = (req, res) => {
+restaurantController.getAllRestaurants = async (req, res) => {
   try {
     console.log("GET cont/getAllRestaurants");
-    // todo: hamma restaurantlarni dbdan chaqiramiz
 
-    res.render("all-restaurants");
+    const restaurant = new Restaurant();
+    const restaurants_data = await restaurant.getAllRestaurantsData();
+    console.log("res_data:", restaurants_data);
+    // type = "RESTAURANT" hammasini all-restaurant.ejsga chiqarib beradi
+    res.render("all-restaurants", { restaurants_data: restaurants_data });
   } catch (err) {
     console.log(`ERROR: cont/getAllRestaurants, ${err.message}`);
     res.json({ state: "fail", message: err.message });

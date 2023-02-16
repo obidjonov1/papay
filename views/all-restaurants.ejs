@@ -23,7 +23,7 @@
         <div class="resto_table">
           <span class="new_dish_txt">Barcha Oshxonalar Ro'yhati</span>
           <table class="table table-hover table-sm">
-            <thead class="thead-light" style="text-align: center">
+            <thead class="thead-light">
               <tr class="thead-light">
                 <th scope="col">T/r</th>
                 <th scope="col">Oshxona nomi</th>
@@ -33,24 +33,27 @@
               </tr>
             </thead>
 
-            <tbody style="background: white; text-align: center">
-              <td>1</td>
-              <td>Texas De Brasil</td>
-              <td>998909900988</td>
+            <% restaurants_data.map(function(value, key) { %>
+            <tbody style="background: white;">
+              <td><%= key +1 %></td>
+              <td><%= value.mb_nick %></td>
+              <td><%= value.mb_phone %></td>
               <td style="width: 13%">
                 <label class="switch">
-                  <input type="checkbox" class="mb_top" />
-                  <span class="slider around"></span>
+                  <input type="checkbox" class="mb_top" id="<%= value._id %>"
+                  <%= value.mb_top === "Y" ? 'checked' : "" %> />
+                  <span class="slider raund"></span>
                 </label>
               </td>
               <td style="width: 13%">
                 <select class="spec_select mb_status">
-                  <option value="ONPAUSE">ONPAUSE</option>
-                  <option value="ACIVE">ACIVE</option>
-                  <option value="DELETED">DELETED</option>
+                  <option value="ONPAUSE" <%= value.mb_status === 'ONPAUSE' ? 'selected' : '' %> >ONPAUSE</option>
+                  <option value="ACIVE" <%= value.mb_status === 'ACTIVE' ? 'selected' : '' %>>ACIVE</option>
+                  <option value="DELETED" <%= value.mb_status === 'DELETED' ? 'selected' : '' %>>DELETED</option>
                 </select>
               </td>
             </tbody>
+            <% }); %>
           </table>
         </div>
       </div>
