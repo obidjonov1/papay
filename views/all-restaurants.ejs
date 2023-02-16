@@ -34,7 +34,7 @@
             </thead>
 
             <% restaurants_data.map(function(value, key) { %>
-            <tbody style="background: white;">
+            <tbody style="background: white">
               <td><%= key +1 %></td>
               <td><%= value.mb_nick %></td>
               <td><%= value.mb_phone %></td>
@@ -47,9 +47,9 @@
               </td>
               <td style="width: 13%">
                 <select class="spec_select mb_status">
-                  <option value="ONPAUSE" <%= value.mb_status === 'ONPAUSE' ? 'selected' : '' %> >ONPAUSE</option>
-                  <option value="ACIVE" <%= value.mb_status === 'ACTIVE' ? 'selected' : '' %>>ACIVE</option>
-                  <option value="DELETED" <%= value.mb_status === 'DELETED' ? 'selected' : '' %>>DELETED</option>
+                  <!-- <option value="ONPAUSE" <%= value.mb_status === 'ONPAUSE' ? 'selected' : '' %> >ONPAUSE</option> -->
+                  <!-- <option value="ACIVE" <%= value.mb_status === 'ACTIVE' ? 'selected' : '' %>>ACIVE</option> -->
+                  <!-- <option value="DELETED" <%= value.mb_status === 'DELETED' ? 'selected' : '' %>>DELETED</option> -->
                 </select>
               </td>
             </tbody>
@@ -59,6 +59,28 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // document get ready
+    $(function () {
+      // monupulate restaurants top features
+      $(".mb_top").on("change", function (e) {
+        // restaurantlarni .id sini olinyapti ->
+        const id = e.target.id;
+        const mb_top = e.target.checked ? "Y" : "N";
+        // update bo'lgan datani bodyga yuklanyapti ->
+        axios
+          .post("/resto/all-restaurant/edit", { id: id, mb_top: mb_top })
+          .then((response) => {
+            //response.data ni ichida restaurantController[164] (res.jsonga path qilganimiz) beriladi
+            const result = response.data;
+            if (result.state === "success") alert("successfully updated");
+            else alert(result.message);
+          })
+          .catch((err) => console.log(err));
+      });
+    });
+  </script>
 </body>
 
 <%- include('includes/footer') %>
