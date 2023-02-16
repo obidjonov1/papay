@@ -146,7 +146,6 @@ restaurantController.getAllRestaurants = async (req, res) => {
 
     const restaurant = new Restaurant();
     const restaurants_data = await restaurant.getAllRestaurantsData();
-    console.log("res_data:", restaurants_data);
     // type = "RESTAURANT" hammasini all-restaurant.ejsga chiqarib beradi
     res.render("all-restaurants", { restaurants_data: restaurants_data });
   } catch (err) {
