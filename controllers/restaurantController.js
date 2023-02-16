@@ -1,4 +1,3 @@
-console.log("restaurant-menu.ejsdan commentni ochir");
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 const Member = require("../models/Member");
@@ -145,9 +144,9 @@ restaurantController.getAllRestaurants = (req, res) => {
     console.log("GET cont/getAllRestaurants");
     // todo: hamma restaurantlarni dbdan chaqiramiz
 
-    req.render("all-restaurants");
+    res.render("all-restaurants");
   } catch (err) {
-    console.log(`ERROR: cont/getAllRestaurants ${err.message}`);
+    console.log(`ERROR: cont/getAllRestaurants, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };

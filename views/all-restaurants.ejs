@@ -1,1 +1,61 @@
-<h1>Passed here</h1>
+<%- include('includes/header') %>
+
+<link rel="stylesheet" href="/css/menu.css" />
+
+<body>
+  <div id="main_container">
+    <div class="group_name">
+      <ul class="nav justify-content-center">
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link active" href="/resto">Home</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/resto/all-restaurant">AllResto</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/resto/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="restaurant_menu_frame">
+      <div class="restaurant_container">
+        <div class="resto_table">
+          <span class="new_dish_txt">Barcha Oshxonalar Ro'yhati</span>
+          <table class="table table-hover table-sm">
+            <thead class="thead-light" style="text-align: center">
+              <tr class="thead-light">
+                <th scope="col">T/r</th>
+                <th scope="col">Oshxona nomi</th>
+                <th scope="col">Oshxona Telefon Raqami</th>
+                <th scope="col">Oshxona TOP</th>
+                <th scope="col">Oshxona Holati</th>
+              </tr>
+            </thead>
+
+            <tbody style="background: white; text-align: center">
+              <td>1</td>
+              <td>Texas De Brasil</td>
+              <td>998909900988</td>
+              <td style="width: 13%">
+                <label class="switch">
+                  <input type="checkbox" class="mb_top" />
+                  <span class="slider around"></span>
+                </label>
+              </td>
+              <td style="width: 13%">
+                <select class="spec_select mb_status">
+                  <option value="ONPAUSE">ONPAUSE</option>
+                  <option value="ACIVE">ACIVE</option>
+                  <option value="DELETED">DELETED</option>
+                </select>
+              </td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<%- include('includes/footer') %>
