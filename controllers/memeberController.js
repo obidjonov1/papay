@@ -52,7 +52,7 @@ memberController.login = async (req, res) => {
 };
 
 memberController.logout = (req, res) => {
-  console.log("GET cont.logout");
+  console.log("GET cont/logout");
   res.send("logout sahifasidasiz");
 };
 
@@ -74,6 +74,21 @@ memberController.createToken = (result) => {
 
     assert.ok(token, Definer.auth_err4);
     return token;
+  } catch (err) {
+    throw err;
+  }
+};
+
+memberController.checkMyAuthentication = (req, res) => {
+  try {
+    console.log("GET cont/checkMyAuthentication");
+    // cookiedagi tokenni (frontenda)  qabul qilish ->
+    let token = req.cookies["access_token"];
+
+    const member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
+    assert.ok(member, Definer.auth_err4); // <- memberni olyabmiz id, nick_name...[63]
+
+    res.json({ state: "succeed", data: member });
   } catch (err) {
     throw err;
   }

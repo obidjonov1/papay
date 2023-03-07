@@ -10,6 +10,7 @@ const memberController = require("./controllers/memeberController");
 router.post("/signup", memberController.signup);
 router.post("/login", memberController.login);
 router.get("/logout", memberController.logout);
+router.get("/check-me", memberController.checkMyAuthentication)
 
 // Ohters routers
 router.get("/menu", (req, res) => {
