@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const router = require("./router.js");
 const router_bssr = require("./router_bssr.js");
+const cookieParser = require("cookie-parser");
 
 let session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -16,6 +17,8 @@ const store = new MongoDBStore({
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// cookiega set bo'lgan tokenni ACTIVE qilish(memberController.js[36]) ->
+app.use(cookieParser());
 
 // 2-> session
 app.use(
@@ -41,6 +44,6 @@ app.set("view engine", "ejs");
 
 // 4 -> routing code
 app.use("/resto", router_bssr); // ananaviy
-app.use("/", router); // React
+app.use("/", router); // React (REST API)
 
 module.exports = app;
