@@ -3,6 +3,7 @@ const Definer = require("../lib/mistake");
 const assert = require("assert");
 const bcrypt = require("bcryptjs"); // passwordni shifrlash uchun
 const { shapeIntoMongooseObjectid } = require("../lib/config");
+const View = require("./View");
 
 class Member {
   constructor() {
@@ -63,8 +64,10 @@ class Member {
       id = shapeIntoMongooseObjectid(id);
       console.log("member:", member);
 
-      if(member) {
+      // login bo'lmagan bo'lsa bu yerdan o'tib ketadi ->
+      if (member) {
         // condition if not see before
+        await this.viewChosenItemByMember(member, id, "member");
       }
 
       const result = await this.memberModel
@@ -77,6 +80,31 @@ class Member {
 
       assert.ok(result, Definer.general_err2);
       return result[0];
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async viewChosenItemByMember(member, view_ref_id, group_type) {
+    try {
+      view_ref_id = shapeIntoMongooseObjectid(view_ref_id);
+      const mb_id = shapeIntoMongooseObjectid(member._id);
+
+      const view = new View(mb_id);
+      // validation needed haqiqatda bor accauntmi "View.js[11]"
+      const isValid = await view.validateChosenTarget(view_ref_id, group_type);
+      assert.ok(isValid, Definer.general_err2);
+
+      // logged user has seen target before
+      const doesExist = await view.checkViewExistence(view_ref_id);
+      console.log("doesExist:", doesExist);
+
+      if (!doesExist) {
+        const result = await view.insertMemberView(view_ref_id, group_type);
+        assert.ok(result, Definer.general_err1);
+      }
+      // const result = await view.insertMemberView(view_ref_id, group_type);
+      return true;
     } catch (err) {
       throw err;
     }
