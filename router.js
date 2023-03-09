@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const memberController = require("./controllers/memeberController");
+const productController = require("./controllers/productController");
 
 /* *************************
  *      REST API          *
@@ -13,18 +14,16 @@ router.get("/logout", memberController.logout);
 router.get("/check-me", memberController.checkMyAuthentication);
 router.get(
   "/member/:id",
-  // 1-si view uchun -> 
+  // 1-si view uchun ->
   memberController.retrieveAuthMember,
   memberController.getChosenMember
 );
 
 // Ohters routers
-router.get("/menu", (req, res) => {
-  res.send("Menu sahifasidasiz");
-});
-
-router.get("/community", (req, res) => {
-  res.send("Jamiyat sahifasidasiz");
-});
+router.post(
+  "/products",
+  memberController.retrieveAuthMember,
+  productController.getAllProducts
+);
 
 module.exports = router;

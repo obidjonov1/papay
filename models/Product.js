@@ -10,11 +10,11 @@ class Product {
 
   async getAllProductsData(member, data) {
     try {
-      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      const auth_mb_id = shapeIntoMongooseObjectid(member?._id);
 
       let match = { product_status: "PROCESS" };
       if (data.restaurant_mb_id) {
-        match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
+        match["restaurant_mb_id"] = shapeIntoMongooseObjectid(
           data.restaurant_mb_id
         );
         match["product_collection"] = data.product_collection;
@@ -31,7 +31,7 @@ class Product {
           { $sort: sort },
           { $skip: (data.page * 1 - 1) * data.limit },
           { $limit: data.limit * 1 },
-          // todo: check auth member product likes
+          // todo: Check auth member product likeS
         ])
         .exec();
 

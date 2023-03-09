@@ -4,15 +4,21 @@ const Product = require("../models/Product");
 
 let productController = module.exports;
 
-productController.getAllproducts = async (req, res) => {
+productController.getAllProducts = async (req, res) => {
   try {
-    console.log("GET: cont/getAllProduct");
+    console.log("POST cont/getAllProducts");
+    const product = new Product();
+    const results = await product.getAllProductsData(req.member, req.body);
+    await res.json({ state: "Succeeded!", data: results });
   } catch (err) {
-    console.log(`ERROR: cont/getAllProduct ${err.message}`);
-    res.json({ state: "fail", message: err.message });
+    console.log(`ERROR, cont/getAllProducts, ${err.message}`);
+    res.json({ state: "failed", message: err.message });
   }
 };
 
+/************************************
+ *       BSSR RELATED METHODS       *
+ ***********************************/
 productController.addNewProduct = async (req, res) => {
   try {
     console.log("POST: cont/addNewProduct");
@@ -24,7 +30,7 @@ productController.addNewProduct = async (req, res) => {
 
     // req.filesga yuklangan fileni array qilib databasega yozish ->
     data.product_images = req.files.map((ele) => {
-      // path lardan iborat array hosil qilyabmiz 
+      // path lardan iborat array hosil qilyabmiz
       // hech qachon databasega img,file yuklamaymiz faqat array yuklaymiz
       return ele.path;
     });
