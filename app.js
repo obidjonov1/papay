@@ -43,7 +43,7 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 
 // 4 -> routing code
-app.use("/resto", router_bssr); // ananaviy
-app.use("/", router); // React (REST API)
+app.use("/resto", router_bssr); // ananaviy MODERN
+app.use("/", router); // React (REST API) single page
 
 module.exports = app;

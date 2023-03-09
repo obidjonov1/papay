@@ -53,7 +53,9 @@ memberController.login = async (req, res) => {
 
 memberController.logout = (req, res) => {
   console.log("GET cont/logout");
-  res.send("logout sahifasidasiz");
+  res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
+
+  res.json({ state: "succeed", data: "logout successfuly!" });
 };
 
 // JWT
@@ -66,7 +68,7 @@ memberController.createToken = (result) => {
       mb_type: result.mb_type,
     };
 
-    // jwtga kerakli datani tanlab olyabmiz ->
+    // jwtga kerakli datani tanlab olyabmiz -> (jwt.sign -> ichga tokenga aylantirmoqchi bo'lgan object -> secret code -> vaqt(options)
     const token = jwt.sign(upload_data, process.env.SECRET_TOKEN, {
       // token necha soatda tugashi ->
       expiresIn: "6h",
@@ -79,17 +81,49 @@ memberController.createToken = (result) => {
   }
 };
 
+// jbrish qilib yashirgan codeni qayta olish
 memberController.checkMyAuthentication = (req, res) => {
   try {
     console.log("GET cont/checkMyAuthentication");
-    // cookiedagi tokenni (frontenda)  qabul qilish ->
-    let token = req.cookies["access_token"];
+    // cookiedagi tokenni (frontenda)  qabul qilish -> kelayotgan requestdan cookiesni 받을 수 있슴
+    let token = req.cookies["access_token"]; // "access_token" -> qanday nom bilan yozilgan bo'lsa shu nom bilan qabul qilinadi [18]
 
+    //  tokeni ichidagi yashiringan objectni olish ->
     const member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
-    assert.ok(member, Definer.auth_err4); // <- memberni olyabmiz id, nick_name...[63]
+    assert.ok(member, Definer.auth_err4); // <- memberni objectni olyabmiz uni ichida(id, nick_name...[63])
 
     res.json({ state: "succeed", data: member });
   } catch (err) {
     throw err;
+  }
+};
+
+memberController.getChosenMember = async (req, res) => {
+  try {
+    console.log("GET cont/getChosenMember");
+    const id = req.params.id;
+
+    const member = new Member();
+    // .getChosenMemberData(kim reqni amalga oshiryapti, kimni ko'rmoqchi)
+    const result = await member.getChosenMemberData(req.member, id);
+
+    res.json({ state: "succeed", data: result });
+  } catch (err) {
+    console.log(`ERROR: cont/getChosenMember ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+// VIEWlar uchun TOKEN orqali ->
+memberController.retrieveAuthMember = (req, res, next) => {
+  try {
+    const token = req.cookies["access_token"];
+    // token orqali "member" check qilinyapti ->
+    req.member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
+    next();
+  } catch (err) {
+    console.log(`ERROR: cont/retrieveAuthMember ${err.message}`);
+    // authenticated bo'lmagan userlarni ham error bermay o'tazib yuborish uchun ->
+    next();
   }
 };

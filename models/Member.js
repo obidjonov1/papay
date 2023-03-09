@@ -2,6 +2,7 @@ const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 const bcrypt = require("bcryptjs"); // passwordni shifrlash uchun
+const { shapeIntoMongooseObjectid } = require("../lib/config");
 
 class Member {
   constructor() {
@@ -51,6 +52,31 @@ class Member {
 
       // bir hil password kirtgan bo'lsa, mb_nick m'lumotlarini olib orqaga qaytaradi -> [rstaurantController 74 qator]
       return await this.memberModel.findOne({ mb_nick: input.mb_nick }).exec();
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getChosenMemberData(member, id) {
+    try {
+      // ObjectId ni mongodbId ga o'zgartirish(kuchaytirish) ->
+      id = shapeIntoMongooseObjectid(id);
+      console.log("member:", member);
+
+      if(member) {
+        // condition if not see before
+      }
+
+      const result = await this.memberModel
+        .aggregate([
+          { $match: { _id: id, mb_status: "ACTIVE" } },
+          // aggregate mbni hamma datasini olib beradi "$unset" mb_passwordni yashiradi ->
+          { $unset: "mb_password" },
+        ])
+        .exec();
+
+      assert.ok(result, Definer.general_err2);
+      return result[0];
     } catch (err) {
       throw err;
     }
