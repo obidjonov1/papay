@@ -8,10 +8,24 @@ productController.getAllProducts = async (req, res) => {
   try {
     console.log("POST cont/getAllProducts");
     const product = new Product();
-    const results = await product.getAllProductsData(req.member, req.body);
-    await res.json({ state: "Succeeded!", data: results });
+    const result = await product.getAllProductsData(req.member, req.body);
+    res.json({ state: "Succeeded!", data: result });
   } catch (err) {
     console.log(`ERROR, cont/getAllProducts, ${err.message}`);
+    res.json({ state: "failed", message: err.message });
+  }
+};
+// 1ta productni view qilish uchun ->
+productController.getChosenProduct = async (req, res) => {
+  try {
+    console.log("GET cont/getChosenProduct");
+    const product = new Product(),
+      id = req.params.id,
+      result = await product.getChosenProductData(req.member, id);
+
+    res.json({ state: "succeeded!", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getChosenProduct, ${err.message}`);
     res.json({ state: "failed", message: err.message });
   }
 };

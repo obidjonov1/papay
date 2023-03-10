@@ -2,6 +2,7 @@ const assert = require("assert");
 const { shapeIntoMongooseObjectid } = require("../lib/config");
 const Definer = require("../lib/mistake");
 const ProductModel = require("../schema/product.model");
+const Member = require("./Member");
 
 class Product {
   constructor() {
@@ -31,11 +32,38 @@ class Product {
           { $sort: sort },
           { $skip: (data.page * 1 - 1) * data.limit },
           { $limit: data.limit * 1 },
-          // todo: Check auth member product likeS
+          // todo: Check auth member product likes
         ])
         .exec();
 
       // console.log("result:", result);
+
+      assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getChosenProductData(member, id) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectid(member?._id);
+      id = shapeIntoMongooseObjectid(id);
+
+      // login bo'lmagan bo'lsa bu yerdan o'tib ketadi -->
+      // 1ta productni viewlarni '1+view' qilish ->
+      if (member) {
+        const member_obj = new Member();
+        member_obj.viewChosenItemByMember(member, id, "product");
+      }
+
+      const result = await this.productModel
+        // productlarning statusi "PROCESS" bo'lsa shularni olib ber ->
+        .aggregate([
+          { $match: { _id: id, product_status: "PROCESS" } },
+          // todo: Check auth member product likes
+        ])
+        .exec();
 
       assert.ok(result, Definer.general_err1);
       return result;

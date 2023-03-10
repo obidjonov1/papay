@@ -75,6 +75,7 @@ class Member {
           { $match: { _id: id, mb_status: "ACTIVE" } },
           // aggregate mbni hamma datasini olib beradi "$unset" mb_passwordni yashiradi ->
           { $unset: "mb_password" },
+          // todo: Check auth member liked the chosen member
         ])
         .exec();
 
@@ -95,11 +96,12 @@ class Member {
       const isValid = await view.validateChosenTarget(view_ref_id, group_type);
       assert.ok(isValid, Definer.general_err2);
 
-      // logged user has seen target before
+      // logged user has seen target before (user bu productni ko'rganmi ? ->)
       const doesExist = await view.checkViewExistence(view_ref_id);
       console.log("doesExist:", doesExist);
 
       if (!doesExist) {
+        // user bu productni ko'rgan bo'lsa o'tib ketadi
         const result = await view.insertMemberView(view_ref_id, group_type);
         assert.ok(result, Definer.general_err1);
       }
