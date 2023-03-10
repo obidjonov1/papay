@@ -10,6 +10,7 @@ class View {
     this.mb_id = mb_id;
   }
 
+  // haqiqata biz ko'rayotgan product mavjudmi ? ->
   async validateChosenTarget(_id, group_type) {
     try {
       let result;
@@ -82,6 +83,7 @@ class View {
     }
   }
 
+  // member oldin bu product(item)ni ko'rganmi ?
   async checkViewExistence(view_ref_id) {
     try {
       const view = await this.viewModel
