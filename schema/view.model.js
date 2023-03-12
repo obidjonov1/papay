@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { like_view_group_list, board_id_enum_list } = require("../lib/config");
 const Schema = mongoose.Schema;
 
-const viewChema = new mongoose.Schema(
+const viewSchema = new mongoose.Schema(
   {
     mb_id: { type: Schema.Types.ObjectId, required: true },
     view_ref_id: { type: Schema.Types.ObjectId, required: true },
@@ -24,4 +24,4 @@ const viewChema = new mongoose.Schema(
   { timestamps: { createdAt: true } }
 );
 
-module.exports = mongoose.model("View", viewChema);
+module.exports = mongoose.model("View", viewSchema);
