@@ -3,6 +3,7 @@ const { model } = require("mongoose");
 const { shapeIntoMongooseObjectid } = require("../lib/config");
 const Definer = require("../lib/mistake");
 const MemberModel = require("../schema/member.model");
+const Member = require("./Member");
 
 class Restaurant {
   constructor() {
@@ -28,9 +29,9 @@ class Restaurant {
           aggregationQuery.push({ $match: match });
           aggregationQuery.push({ $sample: { size: data.limit } });
           break;
-        default:
+        default: // [data.order] qiymatni olib beradi va objni elementiga =lashtiradi
           aggregationQuery.push({ $match: match });
-          const sort = { [data.order]: -1 }; // [data.order] qiymatni olib beradi va objni elementiga =lashtiradi
+          const sort = { [data.order]: -1 };
           aggregationQuery.push({ $sort: sort });
           break;
       }
@@ -41,6 +42,31 @@ class Restaurant {
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
       assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getChosenRestaurantData(member, id) {
+    try {
+      id = shapeIntoMongooseObjectid(id);
+
+      // login bo'lmagan bo'lsa bu yerdan o'tib ketadi -->
+      // 1ta productni viewlarni '1+view' qilish ->
+      if (member) {
+        const member_obj = new Member();
+        await member_obj.viewChosenItemByMember(member, id, "member");
+      }
+
+      const result = await this.memberModel
+        .findOne({
+          _id: id,
+          mb_status: "ACTIVE",
+        })
+        .exec();
+
+      assert.ok(result, Definer.general_err2);
       return result;
     } catch (err) {
       throw err;

@@ -23,7 +23,7 @@ router.get(
 // Product related routers
 router.post(
   "/products",
-  memberController.retrieveAuthMember,
+  memberController.retrieveAuthMember, // middleveartoken
   productController.getAllProducts
 );
 router.get(
@@ -37,6 +37,12 @@ router.get(
   "/restaurants",
   memberController.retrieveAuthMember,
   restaurantController.getRestaurants
+);
+
+router.get(
+  "/restaurants/:id",
+  memberController.retrieveAuthMember,
+  restaurantController.getChosenRestaurant
 );
 
 module.exports = router;
